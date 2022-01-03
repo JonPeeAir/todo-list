@@ -1,14 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Patua+One&display=swap');
 
 :root {
     --primaryColor: #24A3FF;
+    --secondaryColor: white;
+    --secondaryColor200: rgba(0, 0, 0, 0.2);
+    --secondaryColor500: rgba(0, 0, 0, 0.5);
+    --menuItemColor: rgb(80, 80, 80);
+    --menuItemHoverColor: rgb(197, 197, 197);
+    --newTaskButtonColor: rgba(0, 0, 0, 0.521);
     --displayFont: "Patua One", cursive;
+    --mainFont: 'Noto Sans JP', sans-serif;
 }
 
 *, *::after, *::before {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    grid-template-rows: 8% 86% 6%;
 }
 
 #splash-container {
@@ -38,14 +54,182 @@
 }
 
 #splash-text {
-    color: white;
+    color: var(--secondaryColor);
     font-family: var(--displayFont);
     font-size: 8rem;
 }
 
 @keyframes splashScreen {
-    0% { background-color: white; };
+    0% { background-color: var(--secondaryColor); };
     50% { background-color: var(--primaryColor); }
     80% { top: 0;}
     100% { top: 100%; }
+}
+
+body > header {
+    background-color: var(--primaryColor);
+    padding-left: 2rem;
+
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    display: flex;
+    align-items: center;
+}
+
+header > #page-title {
+    color: var(--secondaryColor);
+    font-family: var(--displayFont);
+    font-size: 2rem;
+    cursor: default;
+}
+
+menu {
+    grid-row-start: 2;
+    grid-row-end: 4;
+
+    background-color: var(--secondaryColor200);
+    padding-top: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#general-tasks {
+    /* border: 1px solid black; */
+    width: 80%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+}
+
+#general-tasks > li {
+    list-style-type: none;
+}
+
+#general-tasks > li > button {
+    background: none;
+    border: none;
+    width: 100%;
+    color: var(--menuItemColor);
+    font-size: 1.5rem;
+    font-family: var(--displayFont);
+}
+
+#general-tasks > li > button:hover {
+    background: var(--menuItemHoverColor);
+}
+
+menu > hr {
+    width: 80%;
+}
+
+main {
+    background-color: var(--secondaryColor);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main > header {
+    /* border: 1px solid black; */
+    height: 150px;
+    width: 90%;
+    padding-left: 3rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+main > header > h1 {
+    /* border: 1px solid black; */
+    font-size: 4rem;
+    font-family: var(--displayFont);
+}
+
+main > header > p {
+    /* border: 1px solid black; */
+    color: var(--secondaryColor500);
+    font-size: 1.3rem;
+    font-family: var(--mainFont);
+}
+
+main > header > button {
+    border-radius: 2px;
+    border: none;
+    background: none;
+    font-size: 2rem;
+    font-family: var(--mainFont);
+    margin-left: auto;
+    margin-bottom: -0.5rem;
+}
+
+main > header > button:hover {
+    color: var(--newTaskButtonColor);
+}
+
+main > hr {
+    width: 90%;
+}
+
+main > ul {
+    /* border: 1px solid black; */
+    width: 90%;
+    /* padding: 2rem 8rem; */
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
+    overflow: auto;
+}
+
+main > ul > li {
+    font-size: 1.3rem;
+    font-family: var(--mainFont);
+    list-style-type: none;
+    margin-bottom: 1rem;
+}
+
+input[type=checkbox] {
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-right: 1.5rem;
+}
+
+footer {
+    /* border: 1px solid black; */
+    background-color: var(--secondaryColor);
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer > p {
+    color: var(--secondaryColor500);
+    font-family: var(--displayFont);
+    font-size: 1.5rem;
+}
+
+footer > p > a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#github-container {
+    position: absolute;
+    right: 1.2rem;
+}
+
+#github-container > a > img {
+    width: 35px;
 }

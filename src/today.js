@@ -1,18 +1,16 @@
 import { format } from "date-fns";
 import TaskUtils from "./taskUtils";
+import TaskUI from "./taskUI";
 
 export default (() => {
 
     function display() {
+        // Set a listener to reload tasks whenever storage has been updated
+        document.addEventListener("storageUpdate", loadTasks);
+
         setupTitle();
+        setupNewTaskBtn();
         loadTasks();
-
-        // Code below is just to test the taskUtils
-        const task = TaskUtils.taskFactory("take out trash");
-        TaskUtils.storeTask(task);
-
-        console.log(TaskUtils.queryTasks(new Date()));
-
     }
 
     function setupTitle() {
@@ -24,33 +22,19 @@ export default (() => {
     }
 
     function setupNewTaskBtn() {
+        const newTaskBtn = document.getElementById("new-task-btn");
+        newTaskBtn.onclick = createDummyTask;
 
-    }
-
-    function loadTasks() {
-        const allTasks = localStorage.getItem("JNPR-todo");
-
-        if (!allTasks) {
-            displayEmptyTaskScreen();
-        } else {
-            const taskList = document.getElementById("task-list");
-            taskList.style.display = "block";
+        function createDummyTask() {
+            TaskUtils.addNewTask(TaskUtils.newTask(new Date().toString()));
         }
     }
 
-    function displayEmptyTaskScreen() {
-        const taskList = document.getElementById("task-list");
-        taskList.style.display = "flex";
-        taskList.style.justifyContent = "center";
-        taskList.style.alignItems = "center";
-
-        const noTaskText = document.createElement("p");
-        noTaskText.id = "empty-task-text";
-        noTaskText.textContent = "Hmm.. looks like there's nothing to do today";
-
-        taskList.append(noTaskText);
+    function loadTasks() {
+        const today = new Date();
+        const tasksToday = TaskUtils.getTasks(today);
+        TaskUI.displayTasksFromList(tasksToday);
     }
-
 
     return {
         display

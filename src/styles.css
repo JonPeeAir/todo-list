@@ -184,12 +184,15 @@ main > ul {
     /* border: 1px solid black; */
     width: 90%;
     height: 100%;
-    /* padding: 2rem 8rem; */
     margin-top: 2rem;
     margin-bottom: 2rem;
     padding-left: 8rem;
     padding-right: 8rem;
     overflow: auto;
+
+    /* these styles only apply when display is set to flex*/
+    justify-content: center;
+    align-items: center;
 }
 
 main > ul > #empty-task-text {
@@ -203,6 +206,15 @@ main > ul > li {
     font-family: var(--mainFont);
     list-style-type: none;
     margin-bottom: 1rem;
+
+    display: flex;
+    align-items: center;
+}
+
+main > ul > li > button {
+    margin-left: auto;
+    font-size: inherit;
+    font-family: inherit;
 }
 
 input[type=checkbox] {

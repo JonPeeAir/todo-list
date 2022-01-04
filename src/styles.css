@@ -183,12 +183,19 @@ main > hr {
 main > ul {
     /* border: 1px solid black; */
     width: 90%;
+    height: 100%;
     /* padding: 2rem 8rem; */
     margin-top: 2rem;
     margin-bottom: 2rem;
     padding-left: 8rem;
     padding-right: 8rem;
     overflow: auto;
+}
+
+main > ul > #empty-task-text {
+    color: var(--secondaryColor500);
+    font-family: var(--mainFont);
+    font-size: 2rem;
 }
 
 main > ul > li {

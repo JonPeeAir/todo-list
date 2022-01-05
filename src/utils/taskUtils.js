@@ -112,7 +112,7 @@ export default (() => {
         const taskList = getTaskList();
         if (!taskList) return null;
 
-        const queriedTasks = taskList.filter(task => task.toDoDate >= from || task.toDoDate <= to);
+        const queriedTasks = taskList.filter(task => task.toDoDate >= from && task.toDoDate <= to);
         return queriedTasks;
     }
 

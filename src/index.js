@@ -1,9 +1,9 @@
 import "./styles.css";
 
 import SplashScreen from "./splashScreen";
-import Today from "./today";
-import Week from "./week";
-import AllTasks from "./allTasks";
+import Today from "./tabs/today";
+import Week from "./tabs/week";
+import AllTasks from "./tabs/allTasks";
 
 // SplashScreen.load();
 

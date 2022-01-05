@@ -25,6 +25,8 @@
 
             <ul id="projects">
 
+                <!-- to be developed soon -->
+
             </ul>
 
 
@@ -35,6 +37,38 @@
                 <h1 id="title">Today</h1>
                 <p id="date">January 1, 2021</p>
                 <button id="new-task-btn">+</button>
+
+                <div class="modal-bg" id="modal-bg"></div>
+
+                <div class="new-task-modal" id="new-task-modal">
+
+                    <header id="modal-title">Create New Task <hr> </header>
+
+                    <form id="modal-form" autocomplete="off">
+
+                        <div id="modal-input-container">
+
+                            <div class="modal-input" id="task-input">
+                                <label for="task-value">Task</label>
+                                <input type="text" id="task-value" placeholder="take out the trash.." required>
+                            </div>
+
+                            <div class="modal-input" id="date-input">
+                                <label for="date-value">To Do Date</label>
+                                <input type="date" id="date-value" required>
+                            </div>
+
+                        </div>
+
+                        <div id="button-container">
+                            <button class="modal-btn" id="cancel-btn" type="reset">Cancel</button>
+                            <button class="modal-btn" id="add-btn" type="submit">Add</button>
+                        </div>
+
+                    </form>
+
+                </div>
+
             </header>
 
             <hr>

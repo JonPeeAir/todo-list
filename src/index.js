@@ -5,7 +5,7 @@ import Today from "./tabs/today";
 import Week from "./tabs/week";
 import AllTasks from "./tabs/allTasks";
 
-// SplashScreen.load();
+SplashScreen.load();
 
 // Setup menu items
 const todayBtn = document.getElementById("today-btn");

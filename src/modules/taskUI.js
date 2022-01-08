@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, lightFormat } from "date-fns";
 
 import TaskUtils from "./taskUtils"
 
@@ -25,7 +25,7 @@ export default (() => {
         } else if (dateRange.from.getTime() === dateRange.to.getTime()) {
             dateElement.textContent = format(dateRange.from, "MMMM d, y");
         } else {
-            dateElement.textContent = format(dateRange.from, "MMMM d, y") + " to " + format(dateRange.to, "MMMM d, y");
+            dateElement.textContent = format(dateRange.from, "MMMM d") + " - " + format(dateRange.to, "d, y");
         }
 
     }
@@ -47,21 +47,10 @@ export default (() => {
             dateInput.removeAttribute("min");
             dateInput.removeAttribute("max");
         } else {
-            dateInput.setAttribute("min", toSimpleDateString(dateRange.from));
-            dateInput.setAttribute("max", toSimpleDateString(dateRange.to));
+            dateInput.setAttribute("min", lightFormat(dateRange.from, "yyyy-MM-dd"));
+            dateInput.setAttribute("max", lightFormat(dateRange.to, "yyyy-MM-dd"));
         }
 
-    }
-
-    function toSimpleDateString(date) {
-        let dd = date.getDate();
-        let mm = date.getMonth() + 1; //January is 0!
-        let yyyy = date.getFullYear();
-
-        if (dd < 10) dd = '0' + dd;
-        if (mm < 10) mm = '0' + mm; 
-            
-        return yyyy + '-' + mm + '-' + dd;
     }
 
     function showNewTaskForm() {
@@ -122,7 +111,15 @@ export default (() => {
             showEmptyTaskScreen();
         } else {
             const taskDisplay = document.getElementById("task-list");
-            taskList.forEach(task => taskDisplay.appendChild(task.toHtmlElement()));
+            taskList.forEach(task => {
+                const taskElement = task.toHtmlElement();
+                if (task.done) {
+                    taskElement.style.textDecoration = "line-through";
+                }
+
+                taskDisplay.appendChild(taskElement);
+
+            });
         }
     }
 

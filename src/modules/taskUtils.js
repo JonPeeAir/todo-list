@@ -1,3 +1,5 @@
+import { format, formatDistance, formatDistanceToNow, formatDistanceToNowStrict, formatRelative, isPast, isToday } from "date-fns";
+
 export default (() => {
 
     const TASK_LIST_KEY = "ToDooDoo";
@@ -18,27 +20,39 @@ export default (() => {
 
     const taskPrototype = {
         toHtmlElement() {
+
+            console.log(this.toDoDate);
+
             const taskItem = document.createElement("li");
+            taskItem.dataset.id = this.id;
+            
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = this.id;
+            checkbox.id = this.id;
+            checkbox.checked = this.done;
+            checkbox.onclick = () => changeTaskStatus(this.id);
 
-            const taskCheckbox = document.createElement("input");
-            taskCheckbox.type = "checkbox";
-            taskCheckbox.name = this.id;
-            taskCheckbox.id = this.id;
+            const label = document.createElement("label");
+            label.htmlFor = this.id;
+            label.textContent = this.description;
 
-            const taskLabel = document.createElement("label");
-            taskLabel.htmlFor = taskCheckbox.id;
-            taskLabel.textContent = this.description;
-
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "delete";
-            deleteBtn.dataset.id = this.id;
-            deleteBtn.onclick = removeThisTask;
-
-            function removeThisTask() {
-                removeTask(this.dataset.id);
+            const date = document.createElement("p");
+            date.textContent = format(this.toDoDate, "E MMM. d") ;
+            if (isToday(this.toDoDate)) {
+                date.textContent = "Today"
+                date.classList.add("green-text");
+            } else if (isPast(this.toDoDate)) {
+                date.classList.add("red-text");
+            } else {
+                date.textContent = formatDistanceToNow(this.toDoDate, {addSuffix: true}) ;
             }
 
-            taskItem.append(taskCheckbox, taskLabel, deleteBtn);
+            const deleteBtn = document.createElement("button");
+            deleteBtn.dataset.id = this.id;
+            deleteBtn.onclick = () => removeTask(this.id);
+
+            taskItem.append(checkbox, label, date, deleteBtn);
             return taskItem;
         }
     }
@@ -100,6 +114,16 @@ export default (() => {
 
         const updatedTaskList = taskList.filter(task => task.id != taskID);
         storeTaskList(updatedTaskList);
+    }
+
+    function changeTaskStatus(taskID) {
+        const taskList = getTaskList();
+        if (!taskList) return;
+
+        taskList.forEach(task => { if (task.id == taskID) task.done = !task.done; });
+        storeTaskList(taskList);
+
+        console.log(this);
     }
 
 

@@ -92,7 +92,7 @@ menu {
     grid-row-end: 4;
 
     background-color: var(--secondaryColor200);
-    padding-top: 1rem;
+    padding: 1rem 2rem;
 
     display: flex;
     flex-direction: column;
@@ -102,7 +102,7 @@ menu {
 
 #general-tasks {
     /* border: 1px solid black; */
-    width: 80%;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
@@ -128,7 +128,14 @@ menu {
 }
 
 menu > hr {
-    width: 80%;
+    width: 100%;
+}
+
+.credits {
+    margin-top: auto;
+    color: var(--menuItemColor);
+    font-family: var(--mainFont);
+    text-decoration: none;
 }
 
 main {
@@ -349,19 +356,49 @@ main > ul > #empty-task-text {
 }
 
 main > ul > li {
+    /* border: 1px solid black; */
+
     font-size: 1.3rem;
     font-family: var(--mainFont);
     list-style-type: none;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 
     display: flex;
     align-items: center;
 }
 
-main > ul > li > button {
+.green-text {
+    color: green;
+
+}
+
+.red-text {
+    color: red
+
+}
+
+main > ul > li > p {
     margin-left: auto;
-    font-size: inherit;
-    font-family: inherit;
+}
+
+main > ul > li > button {
+    /* border: 1px solid black; */
+
+    margin-left: 1rem;
+    height: 2rem;
+    width: 30px;
+    border: none;
+    background: none;
+
+    background-image: url("assets/closed-trashcan.svg");
+    background-size: 1.3rem;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+main > ul > li > button:hover {
+    background-image: url("assets/opened-trashcan.svg");
 }
 
 input[type=checkbox] {

@@ -1,21 +1,34 @@
 import "./styles.css";
 
-import SplashScreen from "./splashScreen";
-import Today from "./tabs/today";
-import Week from "./tabs/week";
-import AllTasks from "./tabs/allTasks";
+import { startOfWeek, endOfWeek } from 'date-fns';
+
+import SplashScreen from "./modules/splashScreen";
+import TaskUI from "./modules/taskUI";
 
 SplashScreen.load();
 
 // Setup menu items
+const todayPage = {
+    title: "Today",
+    dateRange: { from: new Date(), to: new Date() },
+}
 const todayBtn = document.getElementById("today-btn");
-todayBtn.onclick = Today.display;
+todayBtn.onclick = () => TaskUI.display(todayPage);
 
+const weekPage = {
+    title: "Week",
+    dateRange: { from: startOfWeek(new Date()), to: endOfWeek(new Date()) },
+}
 const weekBtn = document.getElementById("week-btn");
-weekBtn.onclick = Week.display;
+weekBtn.onclick = () => TaskUI.display(weekPage);
 
+const allPage = {
+    title: "All Tasks",
+    dateRange: undefined,
+}
 const allBtn = document.getElementById("all-btn");
-allBtn.onclick = AllTasks.display;
+allBtn.onclick = () => TaskUI.display(allPage);
 
 // Start by showing today's tasks
-Today.display();
+TaskUI.display(todayPage);
+

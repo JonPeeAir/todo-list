@@ -121,6 +121,7 @@ export default (() => {
         newTask, 
         addNewTask,
         getTasks,
+        getTaskList
     }
 
 })();

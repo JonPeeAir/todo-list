@@ -101,6 +101,10 @@ menu {
     gap: 1rem;
 }
 
+ul > li {
+    list-style-type: none;
+}
+
 .menu-primaryStyle {
     background: none;
     border: none;
@@ -113,7 +117,14 @@ menu {
 }
 
 .menu-secondaryStyle {
-
+    background: none;
+    border: none;
+    width: 100%;
+    color: var(--menuItemColor);
+    font-size: 1.2rem;
+    font-family: var(--displayFont);
+    text-align: left;
+    cursor: default;
 }
 
 #general-tasks {
@@ -134,6 +145,20 @@ menu {
 
 menu > hr {
     width: 100%;
+}
+
+#projects {
+    margin-top: -0.5rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    max-height: 30%;
+    border-radius: 5px;
+    background-color: var(--newProjectFormColor);
+    overflow: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .new-project-btn {

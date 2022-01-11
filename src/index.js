@@ -29,6 +29,7 @@ const allPage = {
 const allBtn = document.getElementById("all-btn");
 allBtn.onclick = () => TaskUI.display(allPage);
 
+// Setup project items
 const newProjBtn = document.getElementById("new-project-btn");
 newProjBtn.onclick = () => {
     const symbol = document.querySelector(".new-project-btn > span");

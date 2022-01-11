@@ -1,28 +1,23 @@
 import { format, formatDistance, formatDistanceToNow, formatDistanceToNowStrict, formatRelative, isPast, isToday } from "date-fns";
+import Database from "./database";
+
+// Got this from stackoverflow
+// This will be used for creating task ids
+String.prototype.hashCode = function() {
+    let hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
 
 export default (() => {
 
-    const TASK_LIST_KEY = "ToDooDoo";
-
-    // Got this from stackoverflow
-    // This will be used for creating task ids
-    String.prototype.hashCode = function() {
-        let hash = 0, i, chr;
-        if (this.length === 0) return hash;
-        for (i = 0; i < this.length; i++) {
-            chr   = this.charCodeAt(i);
-            hash  = ((hash << 5) - hash) + chr;
-            hash |= 0; // Convert to 32bit integer
-        }
-        return hash;
-    };
-
-
     const taskPrototype = {
         toHtmlElement() {
-
-            console.log(this.toDoDate);
-
             const taskItem = document.createElement("li");
             taskItem.dataset.id = this.id;
             
@@ -76,11 +71,9 @@ export default (() => {
 
     // Gets task list from database and returns it as an array
     function getTaskList() {
-        const taskListJSON = localStorage.getItem(TASK_LIST_KEY);
+        const taskList = Database.getDatabase().taskList;
+        if (!taskList) return null;
 
-        if (!taskListJSON) return null;
-
-        const taskList = JSON.parse(taskListJSON);
         // JSON.parse doesn't parse the task objects properly so we manually parse some aspects of task ourselves
         taskList.forEach(task => {
             task.toDoDate = new Date(task.toDoDate);
@@ -92,14 +85,9 @@ export default (() => {
 
     // takes an array and stores it in database
     function storeTaskList(taskList) {
-
-        // Create new event to alert page whenever we update the local storage
-        const event = new Event("storageUpdate");
-
-        const taskListJSON = JSON.stringify(taskList);
-        localStorage.setItem(TASK_LIST_KEY, taskListJSON);
-        document.dispatchEvent(event);
-
+        const database = Database.getDatabase();
+        database.taskList = taskList;
+        Database.storeDatabase(database);
     }
 
     function addNewTask(task) {

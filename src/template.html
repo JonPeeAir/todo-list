@@ -16,18 +16,28 @@
 
         <menu>
             <ul id="general-tasks">
-                <li><button id="today-btn">Today</button></li>
-                <li><button id="week-btn">Week</button></li>
-                <li><button id="all-btn">All</button></li>
+                <li><button class="menu-primaryStyle" id="today-btn">Today</button></li>
+                <li><button class="menu-primaryStyle" id="week-btn">Week</button></li>
+                <li><button class="menu-primaryStyle" id="all-btn">All</button></li>
             </ul>
 
             <hr>
 
+            <p class="menu-primaryStyle">Projects</p>
+
             <ul id="projects">
 
-                <!-- to be developed soon -->
 
             </ul>
+
+            <button class="new-project-btn" id="new-project-btn"> <span>+</span> New Project</button>
+
+            <form class="new-project-form" id="new-project-form">
+                <label class="label-style" for="proj-title">Title</label>
+                <input class="input-style" type="text" name="proj-title" id="proj-title">
+
+                <button type="submit">Add</button>
+            </form>
 
             <a class="credits" href="https://www.vecteezy.com/free-vector/trash-bin-icon" target="_blank">Trash Bin Icon Vectors by Vecteezy</a>
 
@@ -52,12 +62,12 @@
 
                             <div class="modal-input" id="task-input">
                                 <label for="task-value">Task</label>
-                                <input type="text" id="task-value" placeholder="take out the trash.." required>
+                                <input class="input-style" type="text" id="task-value" placeholder="take out the trash.." required>
                             </div>
 
                             <div class="modal-input" id="date-input">
                                 <label for="date-value">To Do Date</label>
-                                <input type="date" id="date-value" required>
+                                <input class="input-style" type="date" id="date-value" required>
                             </div>
 
                         </div>

@@ -13,6 +13,7 @@
     --newTaskButtonColor: rgba(0, 0, 0, 0.521);
     --displayFont: "Patua One", cursive;
     --mainFont: 'Noto Sans JP', sans-serif;
+    --newProjectFormColor: rgb(228, 228, 228);
 }
 
 *, *::after, *::before {
@@ -100,27 +101,31 @@ menu {
     gap: 1rem;
 }
 
-#general-tasks {
-    /* border: 1px solid black; */
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-}
-
-#general-tasks > li {
-    list-style-type: none;
-}
-
-#general-tasks > li > button {
+.menu-primaryStyle {
     background: none;
     border: none;
     width: 100%;
     color: var(--menuItemColor);
     font-size: 1.5rem;
     font-family: var(--displayFont);
+    text-align: center;
+    cursor: default;
+}
+
+.menu-secondaryStyle {
+
+}
+
+#general-tasks {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#general-tasks > li {
+    list-style-type: none;
 }
 
 #general-tasks > li > button:hover {
@@ -129,6 +134,74 @@ menu {
 
 menu > hr {
     width: 100%;
+}
+
+.new-project-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    border-radius: 5px;
+    font-family: var(--mainFont);
+    font-size: 1rem;
+    color: var(--menuItemColor);
+}
+
+.new-project-btn:hover {
+    /* background-color: var(--menuItemHoverColor); */
+    color: var(--secondaryColor500);
+}
+
+.new-project-btn > span {
+    display: inline-block;
+    transition: transform 0.5s;
+}
+
+.rotate45 {
+    transform: rotateZ(45deg);
+}
+
+.new-project-form {
+    background-color: var(--newProjectFormColor);
+    border-radius: 5px;
+    margin: -0.5rem -1rem;
+    padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 200ms, visibility 200ms;
+}
+
+.new-project-form.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.new-project-form > label {
+    width: 100%;
+}
+
+.new-project-form > input {
+    width: 100%;
+    font-size: 1rem;
+}
+
+.new-project-form > button {
+    width: 100%;
+    font-family: var(--displayFont);
+    color: var(--menuItemColor);
+    border: none;
+    background: none;
+    border-radius: 50px;
+}
+
+.new-project-form > button:hover {
+    background-color: var(--menuItemHoverColor);
 }
 
 .credits {
@@ -270,14 +343,23 @@ main > header > button:hover {
     display: block;
 }
 
+.label-style {
+    font-family: var(--displayFont);
+    color: var(--secondaryColor500);
+    display: block;
+}
+
 .modal-input > input {
-    /* width: 100%; */
     height: 2.5rem;
+    font-size: 1.3rem;
+}
+
+.input-style {
     padding: 0px 10px;
+    background: none;
     border: none;
     border-bottom: 1px solid black;
     border-radius: 5px;
-    font-size: 1.3rem;
     font-family: var(--mainFont);
 }
 

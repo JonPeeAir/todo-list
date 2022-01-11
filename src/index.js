@@ -5,7 +5,7 @@ import { startOfWeek, endOfWeek } from 'date-fns';
 import SplashScreen from "./modules/splashScreen";
 import TaskUI from "./modules/taskUI";
 
-SplashScreen.load();
+// SplashScreen.load();
 
 // Setup menu items
 const todayPage = {
@@ -28,6 +28,22 @@ const allPage = {
 }
 const allBtn = document.getElementById("all-btn");
 allBtn.onclick = () => TaskUI.display(allPage);
+
+const newProjBtn = document.getElementById("new-project-btn");
+newProjBtn.onclick = () => {
+    const symbol = document.querySelector(".new-project-btn > span");
+    const newProjPrompt = document.getElementById("new-project-form");
+
+    if (newProjPrompt.classList.contains("active")) {
+        symbol.classList.remove("rotate45");
+        newProjPrompt.classList.remove("active");
+    } else {
+        symbol.classList.add("rotate45");
+        newProjPrompt.classList.add("active");
+    }
+
+};
+
 
 // Start by showing today's tasks
 TaskUI.display(todayPage);

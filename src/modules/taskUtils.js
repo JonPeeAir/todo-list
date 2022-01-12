@@ -1,5 +1,6 @@
 import { format, formatDistance, formatDistanceToNow, formatDistanceToNowStrict, formatRelative, isPast, isToday } from "date-fns";
 import Database from "./database";
+import taskUI from "./taskUI";
 
 // Got this from stackoverflow
 // This will be used for creating task ids
@@ -20,17 +21,22 @@ export default (() => {
         toHtmlElement() {
             const taskItem = document.createElement("li");
             taskItem.dataset.id = this.id;
+            taskItem.onclick = () => taskUI.showTaskModal("edit", this);
             
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.name = this.id;
             checkbox.id = this.id;
             checkbox.checked = this.done;
-            checkbox.onclick = () => changeTaskStatus(this.id);
+            checkbox.onclick = e => {
+                e.stopPropagation();
+                changeTaskStatus(this.id);
+            };
 
             const label = document.createElement("label");
             label.htmlFor = this.id;
             label.textContent = this.description;
+            label.onclick = e => e.stopPropagation();
 
             const date = document.createElement("p");
             date.textContent = format(this.toDoDate, "E MMM. d") ;
@@ -45,11 +51,15 @@ export default (() => {
 
             const deleteBtn = document.createElement("button");
             deleteBtn.dataset.id = this.id;
-            deleteBtn.onclick = () => removeTask(this.id);
+            deleteBtn.onclick = e => {
+                e.stopPropagation();
+                removeTask(this.id);
+            };
 
             taskItem.append(checkbox, label, date, deleteBtn);
             return taskItem;
-        }
+        },
+        
     }
 
     const newTask = (description="", toDoDate=new Date()) => {
@@ -96,6 +106,46 @@ export default (() => {
         storeTaskList(taskList);
     }
 
+    function getTask(taskID) {
+        const taskList = getTaskList();
+        if (!taskList) return;
+
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskList[i].id == taskID) {
+                return taskList[i];
+            }
+        }
+
+        return null;
+    }
+
+    function updateTask(taskID, newTask) {
+        const taskList = getTaskList();
+        if (!taskList) return;
+
+        // taskList.forEach(task => {
+        //     if (task.id == taskID) {
+        //         task.description = newTask.description;
+        //         task.toDoDate = newTask.toDoDate;
+        //         task.id = newTask.id;
+        //         task.done = newTask.done;
+        //     }
+        // })
+
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskList[i].id == taskID) {
+                // taskList[i].description = newTask.description;
+                // taskList[i].toDoDate = newTask.toDoDate;
+                // taskList[i].id = newTask.id;
+                // taskList[i].done = newTask.done;
+                taskList[i] = newTask;
+            }
+        }
+
+        storeTaskList(taskList);
+
+    }
+
     function removeTask(taskID) {
         const taskList = getTaskList();
         if (!taskList) return;
@@ -132,6 +182,8 @@ export default (() => {
     return {
         newTask, 
         addNewTask,
+        getTask,
+        updateTask,
         getTasks,
         getTaskList
     }

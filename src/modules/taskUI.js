@@ -31,34 +31,50 @@ export default (() => {
     }
 
     function setupNewTaskBtn(dateRange) {
-        setupNewTaskForm(dateRange);
-
         const newTaskBtn = document.getElementById("new-task-btn");
-        newTaskBtn.onclick = showNewTaskForm;
+        newTaskBtn.onclick = () => showTaskModal("create");
     }
 
-    function setupNewTaskForm(dateRange) {
-        const form = document.getElementById("modal-form");
-        form.onsubmit = addNewTask;
-        form.onreset = removeNewTaskPrompt;
-
-        const dateInput = document.getElementById("date-value");
-        if (dateRange === undefined) {
-            dateInput.removeAttribute("min");
-            dateInput.removeAttribute("max");
-        } else {
-            dateInput.setAttribute("min", lightFormat(dateRange.from, "yyyy-MM-dd"));
-            dateInput.setAttribute("max", lightFormat(dateRange.to, "yyyy-MM-dd"));
+    function showTaskModal(mode, task=null) {
+        if (mode === "create") {
+            setupTaskModal("create");
+        } else if (mode === "edit") {
+            setupTaskModal("edit", task);
         }
 
-    }
-
-    function showNewTaskForm() {
         const modalBackground = document.getElementById("modal-bg")
         const newTaskModal= document.getElementById("new-task-modal");
 
         newTaskModal.classList.add("active");
         modalBackground.classList.add("active");
+    }
+
+    function setupTaskModal(mode, task=null) {
+        const modalTitle = document.getElementById("modal-title");
+        const taskInput = document.getElementById("task-value");
+        const dateInput = document.getElementById("date-value");
+        const submitBtn = document.getElementById("submit-btn");
+        const form = document.getElementById("modal-form");
+        form.onreset = removeNewTaskPrompt;
+
+        if (mode === "create") {
+
+            modalTitle.innerHTML = "Create new task <hr>";
+            taskInput.value = "";
+            dateInput.value = "";
+            submitBtn.textContent = "Add";
+            form.onsubmit = addNewTask;
+
+        } else if (mode === "edit") {
+
+            modalTitle.innerHTML = "Edit task <hr>";
+            taskInput.value = task.description;
+            dateInput.value = lightFormat(task.toDoDate, "yyyy-MM-dd");
+            submitBtn.textContent = "Save";
+            form.onsubmit = () => updateTask(task.id);
+
+        }
+
     }
 
     function removeNewTaskPrompt() {
@@ -77,6 +93,24 @@ export default (() => {
         const newTask = TaskUtils.newTask(taskInput.value, dateInput.valueAsDate);
         TaskUtils.addNewTask(newTask);
 
+        form.reset();
+        removeNewTaskPrompt();
+
+        return false;
+    }
+
+    function updateTask(taskID) {
+        console.log("updateTask was called");
+
+        const taskInput = document.getElementById("task-value");
+        const dateInput = document.getElementById("date-value");
+
+        const updatedTask = TaskUtils.newTask(taskInput.value, dateInput.valueAsDate);
+        updatedTask.done = TaskUtils.getTask(taskID).done;
+
+        TaskUtils.updateTask(taskID, updatedTask);
+
+        const form = document.getElementById("modal-form");
         form.reset();
         removeNewTaskPrompt();
 
@@ -123,6 +157,6 @@ export default (() => {
         }
     }
 
-    return { display }
+    return { display, showTaskModal }
 
 })();

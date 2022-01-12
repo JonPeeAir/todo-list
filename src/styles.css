@@ -11,6 +11,7 @@
     --menuItemColor: rgb(80, 80, 80);
     --menuItemHoverColor: rgb(197, 197, 197);
     --menuItemLightHoverColor: rgb(216, 216, 216);
+    --menuItemLighterHoverColor: rgb(240, 240, 240);
     --newTaskButtonColor: rgba(0, 0, 0, 0.521);
     --displayFont: "Patua One", cursive;
     --mainFont: 'Noto Sans JP', sans-serif;
@@ -460,11 +461,11 @@ main > header > button:hover {
     background-color: var(--cancelColor);
 }
 
-#button-container > #add-btn:hover {
+#button-container > #submit-btn:hover {
     background-color: var(--primaryColorHover);
 }
 
-#button-container > #add-btn, #button-container > #add-btn:active {
+#button-container > #submit-btn, #button-container > #submit-btn:active {
     background-color: var(--primaryColor);
 }
 
@@ -478,8 +479,7 @@ main > ul {
     height: 100%;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    padding-left: 8rem;
-    padding-right: 8rem;
+    padding: 0rem 4rem;
     overflow: auto;
 
     /* these styles only apply when display is set to flex*/
@@ -503,10 +503,16 @@ main > ul > li {
     font-size: 1.3rem;
     font-family: var(--mainFont);
     list-style-type: none;
+    padding: 0rem 4rem;
     margin-bottom: 0.5rem;
+    border-radius: 5px;
 
     display: flex;
     align-items: center;
+}
+
+main > ul > li:hover {
+    background-color: var(--menuItemLighterHoverColor);
 }
 
 .green-text {

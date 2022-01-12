@@ -26,7 +26,8 @@
             <p class="menu-primaryStyle">Projects</p>
 
             <ul id="projects">
-                <li><button class="menu-secondaryStyle">Website</button></li>
+                <p class="empty-text">Add a Project by clicking the button below</p>
+                <!-- <li><button class="menu-secondaryStyle">Website</button></li> -->
                 <!-- <li><button class="menu-secondaryStyle">Website</button></li> -->
                 <!-- <li><button class="menu-secondaryStyle">Website</button></li>
                 <li><button class="menu-secondaryStyle">Website</button></li>
@@ -52,9 +53,9 @@
 
             <button class="new-project-btn" id="new-project-btn"> <span>+</span> New Project</button>
 
-            <form class="new-project-form" id="new-project-form">
+            <form class="new-project-form" id="new-project-form" autocomplete="off">
                 <label class="label-style" for="proj-title">Title</label>
-                <input class="input-style" type="text" name="proj-title" id="proj-title">
+                <input class="input-style" type="text" name="proj-title" id="proj-title" required>
 
                 <button type="submit">Add</button>
             </form>

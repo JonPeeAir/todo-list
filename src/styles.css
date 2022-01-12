@@ -10,6 +10,7 @@
     --secondaryColor500: rgba(0, 0, 0, 0.5);
     --menuItemColor: rgb(80, 80, 80);
     --menuItemHoverColor: rgb(197, 197, 197);
+    --menuItemLightHoverColor: rgb(216, 216, 216);
     --newTaskButtonColor: rgba(0, 0, 0, 0.521);
     --displayFont: "Patua One", cursive;
     --mainFont: 'Noto Sans JP', sans-serif;
@@ -125,6 +126,8 @@ ul > li {
     font-family: var(--displayFont);
     text-align: left;
     cursor: default;
+
+    /* border: 1px solid black; */
 }
 
 #general-tasks {
@@ -149,7 +152,7 @@ menu > hr {
 
 #projects {
     margin-top: -0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.5rem;
     width: 100%;
     max-height: 30%;
     border-radius: 5px;
@@ -160,6 +163,34 @@ menu > hr {
     flex-direction: column;
     gap: 0.5rem;
 }
+
+#projects > li {
+    padding: 0rem 0.5rem;
+    border-radius: 5px;
+
+    display: flex;
+}
+
+#projects > li:hover {
+    background-color: var(--menuItemLightHoverColor);
+}
+
+.del-proj-btn {
+    border: none;
+    background: none;
+    font-size: 0.8rem;
+    font-family: var(--mainFont);
+    opacity: 0;
+}
+
+.del-proj-btn:hover {
+    color: var(--menuItemColor)
+}
+
+li:hover > .del-proj-btn {
+    opacity: 1;
+}
+
 
 .new-project-btn {
     width: 100%;
@@ -456,9 +487,13 @@ main > ul {
     align-items: center;
 }
 
-main > ul > #empty-task-text {
+.empty-text {
     color: var(--secondaryColor500);
     font-family: var(--mainFont);
+    cursor: default;
+}
+
+main > ul > .empty-text {
     font-size: 2rem;
 }
 

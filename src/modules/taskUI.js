@@ -99,8 +99,8 @@ export default (() => {
         taskScreen.style.display = "flex";
 
         const noTaskText = document.createElement("p");
-        noTaskText.id = "empty-task-text";
-        noTaskText.textContent = "Hmm.. looks like there's nothing to do today";
+        noTaskText.classList.add("empty-text");
+        noTaskText.textContent = `Hmm.. looks like there's nothing to do today...`;
 
         taskScreen.append(noTaskText);
     }

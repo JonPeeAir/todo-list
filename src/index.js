@@ -4,6 +4,7 @@ import { startOfWeek, endOfWeek } from 'date-fns';
 
 import SplashScreen from "./modules/splashScreen";
 import TaskUI from "./modules/taskUI";
+import Projects from "./modules/projects";
 
 // SplashScreen.load();
 
@@ -29,22 +30,11 @@ const allPage = {
 const allBtn = document.getElementById("all-btn");
 allBtn.onclick = () => TaskUI.display(allPage);
 
-// Setup project items
-const newProjBtn = document.getElementById("new-project-btn");
-newProjBtn.onclick = () => {
-    const symbol = document.querySelector(".new-project-btn > span");
-    const newProjPrompt = document.getElementById("new-project-form");
-
-    if (newProjPrompt.classList.contains("active")) {
-        symbol.classList.remove("rotate45");
-        newProjPrompt.classList.remove("active");
-    } else {
-        symbol.classList.add("rotate45");
-        newProjPrompt.classList.add("active");
-    }
-
-};
-
+// Setup project section
+document.addEventListener("storageUpdate", () => Projects.loadProjects());
+Projects.loadProjects();
+Projects.setupNewProjPrompt();
+Projects.setupNewProjButton();
 
 // Start by showing today's tasks
 TaskUI.display(todayPage);

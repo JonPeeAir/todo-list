@@ -4,7 +4,6 @@ export default (() => {
 
     function getDatabase() {
         const databaseJSON = localStorage.getItem(DATABASE_KEY);
-        console.log(databaseJSON);
         if (!databaseJSON) return {};
 
         const database = JSON.parse(databaseJSON);

@@ -6,10 +6,11 @@ import SplashScreen from "./modules/splashScreen";
 import TaskUI from "./modules/taskUI";
 import Projects from "./modules/projects";
 
-// SplashScreen.load();
+SplashScreen.load();
 
 // Setup menu items
 const todayPage = {
+    type: "general",
     title: "Today",
     dateRange: { from: new Date(), to: new Date() },
 }
@@ -17,6 +18,7 @@ const todayBtn = document.getElementById("today-btn");
 todayBtn.onclick = () => TaskUI.display(todayPage);
 
 const weekPage = {
+    type: "general",
     title: "Week",
     dateRange: { from: startOfWeek(new Date()), to: endOfWeek(new Date()) },
 }
@@ -24,6 +26,7 @@ const weekBtn = document.getElementById("week-btn");
 weekBtn.onclick = () => TaskUI.display(weekPage);
 
 const allPage = {
+    type: "general",
     title: "All Tasks",
     dateRange: undefined,
 }

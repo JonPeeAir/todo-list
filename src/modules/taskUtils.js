@@ -62,7 +62,7 @@ export default (() => {
         
     }
 
-    const newTask = (description="", toDoDate=new Date()) => {
+    const newTask = (description="", toDoDate=new Date(), projectID="") => {
 
         // Ensure time is not stored
         toDoDate.setHours(0, 0, 0, 0);
@@ -73,6 +73,7 @@ export default (() => {
         // Set the values in the task object
         task.description = description;
         task.toDoDate = toDoDate;
+        task.projectID = projectID;
         task.id = (description + toDoDate.toISOString()).hashCode();
         task.done = false;
 
@@ -123,21 +124,8 @@ export default (() => {
         const taskList = getTaskList();
         if (!taskList) return;
 
-        // taskList.forEach(task => {
-        //     if (task.id == taskID) {
-        //         task.description = newTask.description;
-        //         task.toDoDate = newTask.toDoDate;
-        //         task.id = newTask.id;
-        //         task.done = newTask.done;
-        //     }
-        // })
-
         for (let i = 0; i < taskList.length; i++) {
             if (taskList[i].id == taskID) {
-                // taskList[i].description = newTask.description;
-                // taskList[i].toDoDate = newTask.toDoDate;
-                // taskList[i].id = newTask.id;
-                // taskList[i].done = newTask.done;
                 taskList[i] = newTask;
             }
         }
@@ -160,12 +148,10 @@ export default (() => {
 
         taskList.forEach(task => { if (task.id == taskID) task.done = !task.done; });
         storeTaskList(taskList);
-
-        console.log(this);
     }
 
 
-    function getTasks(from, to=from) {
+    function getTasksByTime(from, to=from) {
 
         // Ensure that you don't compare dates by time by setting all hours to zero
         from.setHours(0, 0, 0, 0);
@@ -178,13 +164,23 @@ export default (() => {
         return queriedTasks;
     }
 
+    function getTasksByProject(projectID) {
+        const taskList = getTaskList();
+        if (!taskList) return null;
+
+        const queriedTasks = taskList.filter(task => task.projectID == projectID);
+        return queriedTasks;
+    }
+
 
     return {
+        storeTaskList,
         newTask, 
         addNewTask,
         getTask,
         updateTask,
-        getTasks,
+        getTasksByTime,
+        getTasksByProject,
         getTaskList
     }
 

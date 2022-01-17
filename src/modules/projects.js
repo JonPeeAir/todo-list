@@ -1,4 +1,6 @@
 import Database from "./database";
+import TaskUI from "./taskUI";
+import TaskUtils from "./taskUtils";
 
 // Got this from stackoverflow
 // This will be used for creating project ids
@@ -19,24 +21,49 @@ export default (() => {
         toHtmlElement() {
             const projItem = document.createElement("li");
             projItem.innerHTML = `<button class="menu-secondaryStyle">${this.name}</button>`;
+            projItem.onclick = () => TaskUI.display( {type: "project", title: this.name, projectID: this.id} );
 
             const projDelBtn = document.createElement("button");
-            console.log(this);
             projDelBtn.dataset.id = this.id;
             projDelBtn.classList.add("del-proj-btn");
             projDelBtn.innerHTML = "&times;";
-            projDelBtn.onclick = this.delete;
+            projDelBtn.onclick = e => {
+                e.stopPropagation();
+                this.delete();
+            };
             projItem.appendChild(projDelBtn);
 
             return projItem;
         },
 
         delete() {
+            // When deleting a project, all tasks associated with it should also get deleted
+
+            const pageTitle = document.getElementById("title");
             const projectList = Database.getDatabase().projectList;
+            const taskList = Database.getDatabase().taskList;
+
             if (!projectList.length) return;
 
-            const updatedProjList = projectList.filter(project => project.id != this.dataset.id);
+            // Switch over to today's page if we are deleting the project within its project page
+            if (pageTitle.dataset.id == this.id) {
+                TaskUI.display( {type: "general", title: "Today", dateRange: {from: new Date(), to: new Date()}} );
+            }
+
+            const updatedProjList = projectList.filter(project => project.id != this.id);
             storeProjectList(updatedProjList);
+
+            const updatedTaskList = taskList.filter(task => task.projectID != this.id);
+            TaskUtils.storeTaskList(updatedTaskList);
+
+        },
+
+        toOptionValue() {
+            const projOpt = document.createElement("option");
+            projOpt.value = this.id;
+            projOpt.textContent = this.name;
+
+            return projOpt;
         }
     }
 
@@ -50,19 +77,31 @@ export default (() => {
 
     function loadProjects() {
         const projectList = getProjectList();
-        clearProjectScreen();
+        clearProjectDisplay();
+        clearProjectsInput();
 
         if (!projectList.length) {
             showEmptyProjectScreen();
         } else {
             const projectsDisplay = document.getElementById("projects");
-            projectList.forEach(project => projectsDisplay.append(project.toHtmlElement()));
+            const projectsInput = document.getElementById("proj-value");
+
+            projectList.forEach(project => {
+                projectsDisplay.append(project.toHtmlElement());
+                projectsInput.append(project.toOptionValue());
+            });
+
         }
     }
 
-    function clearProjectScreen() {
+    function clearProjectDisplay() {
         const projectsDisplay = document.getElementById("projects");
         projectsDisplay.innerHTML = "";
+    }
+
+    function clearProjectsInput() {
+        const projectsInput = document.getElementById("proj-value");
+        projectsInput.innerHTML = `<option value="">none</option>`;
     }
 
     function showEmptyProjectScreen() {

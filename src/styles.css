@@ -406,18 +406,15 @@ main > header > button:hover {
     display: block;
 }
 
-.modal-input > input {
-    height: 2.5rem;
-    font-size: 1.3rem;
-}
-
 .input-style {
+    height: 2.5rem;
     padding: 0px 10px;
     background: none;
     border: none;
     border-bottom: 1px solid black;
     border-radius: 5px;
     font-family: var(--mainFont);
+    font-size: 1.3rem;
 }
 
 .modal-input > input:focus {

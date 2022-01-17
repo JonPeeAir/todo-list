@@ -5,18 +5,27 @@ import TaskUtils from "./taskUtils"
 export default (() => {
 
     function display(pageInfo) {
-        // reload tasks when a change is made to local storage
-        document.addEventListener("storageUpdate", () => loadTasks(pageInfo.dateRange));
 
-        setupTitle(pageInfo.title, pageInfo.dateRange);
-        setupNewTaskBtn(pageInfo.dateRange);
-        loadTasks(pageInfo.dateRange);
-        
+        if (pageInfo.type === "general") {
+            // reload tasks when a change is made to local storage
+            document.addEventListener("storageUpdate", () => loadTasksByTime(pageInfo.dateRange));
+
+            setupTitle(pageInfo.title, pageInfo.dateRange);
+            loadTasksByTime(pageInfo.dateRange);
+        } else if (pageInfo.type === "project") {
+            // reload tasks when a change is made to local storage
+            document.addEventListener("storageUpdate", () => loadTasksByProject(pageInfo.projectID));
+
+            setupTitle(pageInfo.title, undefined, pageInfo.projectID);
+            loadTasksByProject(pageInfo.projectID);
+        }
+        setupNewTaskBtn();
     }
 
-    function setupTitle(pageTitle, dateRange) {
+    function setupTitle(pageTitle, dateRange=undefined, projectID=undefined) {
         const title = document.getElementById("title");
         title.textContent = pageTitle;
+        title.dataset.id = projectID;
 
         const dateElement = document.getElementById("date");
 
@@ -30,7 +39,7 @@ export default (() => {
 
     }
 
-    function setupNewTaskBtn(dateRange) {
+    function setupNewTaskBtn() {
         const newTaskBtn = document.getElementById("new-task-btn");
         newTaskBtn.onclick = () => showTaskModal("create");
     }
@@ -53,6 +62,7 @@ export default (() => {
         const modalTitle = document.getElementById("modal-title");
         const taskInput = document.getElementById("task-value");
         const dateInput = document.getElementById("date-value");
+        const projInput = document.getElementById("proj-value");
         const submitBtn = document.getElementById("submit-btn");
         const form = document.getElementById("modal-form");
         form.onreset = removeNewTaskPrompt;
@@ -62,6 +72,9 @@ export default (() => {
             modalTitle.innerHTML = "Create new task <hr>";
             taskInput.value = "";
             dateInput.value = "";
+            // This selects the default project choice
+            Array.from(projInput.options).filter(project => project.value == "")[0].selected = true;
+
             submitBtn.textContent = "Add";
             form.onsubmit = addNewTask;
 
@@ -70,6 +83,9 @@ export default (() => {
             modalTitle.innerHTML = "Edit task <hr>";
             taskInput.value = task.description;
             dateInput.value = lightFormat(task.toDoDate, "yyyy-MM-dd");
+            // this selects the project that the task is assigned to
+            Array.from(projInput.options).filter(project => project.value == task.projectID)[0].selected = true;
+
             submitBtn.textContent = "Save";
             form.onsubmit = () => updateTask(task.id);
 
@@ -88,11 +104,12 @@ export default (() => {
     function addNewTask() {
         const taskInput = document.getElementById("task-value");
         const dateInput = document.getElementById("date-value");
-        const form = document.getElementById("modal-form");
+        const projInput = document.getElementById("proj-value");
 
-        const newTask = TaskUtils.newTask(taskInput.value, dateInput.valueAsDate);
+        const newTask = TaskUtils.newTask(taskInput.value, dateInput.valueAsDate, projInput.value);
         TaskUtils.addNewTask(newTask);
 
+        const form = document.getElementById("modal-form");
         form.reset();
         removeNewTaskPrompt();
 
@@ -100,12 +117,11 @@ export default (() => {
     }
 
     function updateTask(taskID) {
-        console.log("updateTask was called");
-
         const taskInput = document.getElementById("task-value");
         const dateInput = document.getElementById("date-value");
+        const projInput = document.getElementById("proj-value");
 
-        const updatedTask = TaskUtils.newTask(taskInput.value, dateInput.valueAsDate);
+        const updatedTask = TaskUtils.newTask(taskInput.value, dateInput.valueAsDate, projInput.value);
         updatedTask.done = TaskUtils.getTask(taskID).done;
 
         TaskUtils.updateTask(taskID, updatedTask);
@@ -117,8 +133,18 @@ export default (() => {
         return false;
     }
 
-    function loadTasks(dateRange) {
-        const taskList = dateRange === undefined ? TaskUtils.getTaskList() : TaskUtils.getTasks(dateRange.from, dateRange.to);
+    function loadTasksByTime(dateRange) {
+        const taskList = dateRange === undefined ? TaskUtils.getTaskList() : TaskUtils.getTasksByTime(dateRange.from, dateRange.to);
+        showTasksFromList(taskList);
+    }
+    
+    function loadTasksByProject(projectID) {
+        if (!projectID) {
+            console.error("project id is invalid");
+            return;
+        }
+
+        const taskList = TaskUtils.getTasksByProject(projectID);
         showTasksFromList(taskList);
     }
 
